@@ -53,9 +53,11 @@ void headerMenu(struct Account *user){
     }
     }
 int main(){
-
     struct Account user;
 
+    printf("+=================================+\n");
+    printf("|    SELAMAT DATANG DI ATM C11    |\n");
+    printf("+=================================+\n");
     if (!akunAda()) {
         buatAkun(&user);
     } else {
