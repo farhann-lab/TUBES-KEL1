@@ -2,14 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Account {
-    char nama[50];
-    char pin[10];
-    long saldo;
-};
+// struct Account is declared in akun.h so include that instead
+#include "akun.h"
 
 // Cek apakah file akun ada
-int akunAda() {
+int akunAda(void) {
     FILE *file = fopen("akun.txt", "r");
     if (file == NULL) {
         printf("Anda belum memiliki akun.\n");
@@ -20,13 +17,13 @@ int akunAda() {
 }
 
 // Simpan data ke file
-void simpanAkun(struct Account acc) {
+void simpanAkun(const struct Account *acc) {
     FILE *file = fopen("akun.txt", "w");
     if (file == NULL) {
         printf("Gagal membuka file.\n");
         return;
     }
-    fprintf(file, "%s %s %ld", acc.nama, acc.pin, acc.saldo);
+    fprintf(file, "%s %s %ld", acc->nama, acc->pin, acc->saldo);
     fclose(file);
 }
 
@@ -43,7 +40,7 @@ void buatAkun(struct Account *acc) {
     printf("Masukkan Saldo Awal: ");
     scanf("%ld", &acc->saldo);
 
-    simpanAkun(*acc);
+    simpanAkun(acc);
 
     printf("Akun berhasil dibuat!\n");
 }
@@ -55,12 +52,12 @@ void ambilAkun(struct Account *acc) {
         printf("Gagal membuka file.\n");
         return;
     }
-    fscanf(fp, "%s %s %ld", acc->nama, acc->pin, &acc->saldo);
+    fscanf(fp, "%49s %9s %ld", acc->nama, acc->pin, &acc->saldo);
     fclose(fp);
 }
 
 // Login
-void login(struct Account acc) {
+void login(const struct Account *acc) {
     char pinInput[10];
     int percobaan = 0;
 
@@ -68,7 +65,7 @@ void login(struct Account acc) {
         printf("Masukkan PIN: ");
         scanf("%s", pinInput);
 
-        if (strcmp(pinInput, acc.pin) == 0) {
+        if (strcmp(pinInput, acc->pin) == 0) {
             printf("Login berhasil!\n");
             return;
         } else {
@@ -101,19 +98,19 @@ void ubahPin(struct Account *acc) {
     printf("Masukkan PIN baru: ");
     scanf("%s", pinBaru);
 
-    strcpy(acc->pin, pinBaru);
-    simpanAkun(*acc);
+    strncpy(acc->pin, pinBaru, sizeof(acc->pin)-1);
+    acc->pin[sizeof(acc->pin)-1] = '\0';
+    simpanAkun(acc);
 
     printf("PIN berhasil diubah!\n");
 }
 
 // Menu utama
-void menuATM(struct Account acc) {
+void menuATM(struct Account *acc) {
     int pilihan;
-    struct Account temp = acc;
 
     while (1) {
-        printf("\n=== SELAMAT DATANG %s ===\n", temp.nama);
+        printf("\n=== SELAMAT DATANG %s ===\n", acc->nama);
         printf("1. Lihat Saldo\n");
         printf("2. Ubah PIN\n");
         printf("3. Keluar\n");
@@ -121,10 +118,10 @@ void menuATM(struct Account acc) {
         scanf("%d", &pilihan);
 
         if (pilihan == 1) {
-            printf("Saldo Anda: %ld\n", temp.saldo);
+            printf("Saldo Anda: %ld\n", acc->saldo);
         } 
         else if (pilihan == 2) {
-            ubahPin(&temp);
+            ubahPin(acc);
         }
         else if (pilihan == 3) {
             printf("Terima kasih.\n");
@@ -136,17 +133,4 @@ void menuATM(struct Account acc) {
     }
 }
 
-int main() {
-    struct Account user;
-
-    if (!akunAda()) {
-        buatAkun(&user);
-    } else {
-        ambilAkun(&user);
-    }
-
-    login(user);
-    menuATM(user);
-
-    return 0;
-}
+// Note: main is in main.c — this file provides account implementations only.
