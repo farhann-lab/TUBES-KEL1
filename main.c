@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "akun.h"
+#include "transaksi.h"
 
 void headerMenu(struct Account *user){
     int pilihan, loop;
@@ -23,16 +24,16 @@ void headerMenu(struct Account *user){
     switch (pilihan)
     {
     case 1:
-        
+        menuTarikUang(user);
         break;
     case 2:
-        
+        menuSetorUang(user);
         break;
     case 3:
 
         break;
     case 4:
-        printf("Saldo Anda: %ld\n", user->saldo);
+        cekSaldo(user);
         break;
     case 5:
         
@@ -48,6 +49,7 @@ void headerMenu(struct Account *user){
         return;
         break;
     default:
+        printf("Pilihan tidak valid. Silakan coba lagi.\n");
         break;
     }
     }
