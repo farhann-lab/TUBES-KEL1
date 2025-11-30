@@ -1,5 +1,12 @@
 #include <stdio.h>
 
+struct Akun
+{
+    char nama[50];
+    char pin[20];
+    long saldo;
+};
+ 
 void headerMenu(){
     int pilihan;
     printf("+=======================================+\n");
@@ -18,6 +25,10 @@ void headerMenu(){
 
 }
 int main(){
+    struct Akun akun;
+
+
+    
     headerMenu();
     return 0;
 
