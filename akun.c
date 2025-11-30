@@ -62,11 +62,13 @@ void login(const struct Account *acc) {
     int percobaan = 0;
 
     while (1) {
-        printf("Masukkan PIN: ");
+        printf("Silahkan Masukkan PIN: ");
         scanf("%s", pinInput);
 
         if (strcmp(pinInput, acc->pin) == 0) {
+            system("cls");
             printf("Login berhasil!\n");
+            printf("Selamat datang, %s!\n", acc->nama);
             return;
         } else {
             printf("PIN salah!\n");
