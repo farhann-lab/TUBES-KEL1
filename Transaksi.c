@@ -2,50 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "transaksi.h"
 
-void menuTarikUang();
-void menuSetorUang();
-void cekSaldo();
-void simpanSaldo();
-void simpanRiwayat(char transaksi[], double jumlah, double saldoAkhir);
+// Transaksi functions now operate on struct Account passed from main
 
-double saldo = 500000;
+// Transaksi.c provides transaction functions; main() lives in main.c
 
-int main () {
-    system("cls");
+void menuTarikUang(struct Account *acc) {
     int pilihan;
-
-    while (1) {
-        printf("\n==== TRANSAKSI ATM ====\n");
-        printf("1. Tarik Tunai\n");
-        printf("2. Setor Tunai\n");
-        printf("3. Cek Saldo\n");
-        printf("4. Keluar\n");
-        printf("pilih menu: ");
-        scanf("%d", &pilihan);
-
-        switch (pilihan) {
-            case 1:
-                menuTarikUang();
-                break;
-            case 2:
-                menuSetorUang();
-                break;
-            case 3:
-                cekSaldo();
-                break;
-            case 4:
-                printf("Terima kasih telah menggunakan ATM KEL 1.\n");
-                return 0;
-            default:
-                printf("Pilihan tidak valid!\n");
-        }
-    }
-}
-
-void menuTarikUang() {
-    int pilihan;
-    double jumlah = 0;
+    long jumlah = 0;
 
     printf("\n=== TARIK TUNAI ===\n");
     printf("1. 50.000\n");
@@ -65,16 +30,16 @@ void menuTarikUang() {
         case 4: jumlah = 300000; break;
         case 5: jumlah = 500000; break;
         case 6: jumlah = 1000000; break;
-        case 7:
-           printf("Masukkan Jumlah penarikan : ");
-            scanf("%lf", &jumlah);
+          case 7:
+              printf("Masukkan Jumlah penarikan : ");
+                scanf("%ld", &jumlah);
             break;
         default:
             printf("Pilihan tidak valid!\n");
             return;
     }
 
-    if (jumlah > saldo) {
+    if (jumlah > acc->saldo) {
         printf("\n=== TRANSAKSI GAGAL ===\n");
         printf("Transaksi tidak dapat diproses.\n");
         printf("Saldo Anda tidak mencukupi untuk melakukan penarikan sebesar %.0f\n", jumlah);
@@ -82,46 +47,48 @@ void menuTarikUang() {
         return;
     }
 
-    saldo -= jumlah;
+    acc->saldo -= jumlah;
 
-    simpanSaldo();
-    simpanRiwayat("TARIK", jumlah, saldo);
+    simpanAkun(acc); // persist to akun.txt
+    simpanSaldo(acc);
+    simpanRiwayat("TARIK", jumlah, acc->saldo);
 
     printf("\n=== STRUK TARIK TUNAI ===\n");
-    printf("Jumlah ditarik: %.0f\n", jumlah);
-    printf("Sisa saldo: %.0f\n", saldo);
+    printf("Jumlah ditarik: %ld\n", jumlah);
+    printf("Sisa saldo: %ld\n", acc->saldo);
     printf("\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n");
 }
 
-void menuSetorUang() {
-    double jumlah;
+void menuSetorUang(struct Account *acc) {
+    long jumlah;
 
     printf("\n=== SETOR TUNAI ===\n");
     printf("Masukkan jumlah setoran: ");
-    scanf("%lf", &jumlah);
+    scanf("%ld", &jumlah);
 
     if (jumlah <= 0) {
         printf("Jumlah tidak valid!\n");
         return;
     }
 
-    if ((int)jumlah % 50000 != 0 ) {
+    if (jumlah % 50000 != 0 ) {
         printf("ATM hanya menerima pecahan 50.000\n");
         return;
     }
 
-    saldo += jumlah;
+    acc->saldo += jumlah;
 
-    simpanSaldo();
-    simpanRiwayat("SETOR", jumlah, saldo);
+    simpanAkun(acc); // persist new balance
+    simpanSaldo(acc);
+    simpanRiwayat("SETOR", jumlah, acc->saldo);
 
     printf("\n=== STRUK SETOR TUNAI ===\n");
-    printf("Jumlah disetor: %.0f\n", jumlah);
-    printf("Saldo sekarang: %.0f\n", saldo);
-    printf("\n\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.");
+    printf("Jumlah disetor: %ld\n", jumlah);
+    printf("Saldo sekarang: %ld\n", acc->saldo);
+    printf("\n\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n");
 }
 
-void cekSaldo() {
+void cekSaldo(const struct Account *acc) {
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
 
@@ -134,7 +101,7 @@ void cekSaldo() {
             t->tm_mday, t->tm_mon + 1, t->tm_year + 1900);  
     printf("| Waktu   : %02d:%02d:%02d                            |\n",
             t->tm_hour, t->tm_min, t->tm_sec);
-    printf("| Saldo Anda : Rp %.0f,-                      |\n", saldo);
+    printf("| Saldo Anda : Rp %ld,-                      |\n", acc->saldo);
     printf("|                                               |\n");
     printf("|   TERIMA KASIH SUDAH MENGGUNAKAN ATM MINI     |\n");
     printf("|                  KELOMPOK 1                   |\n");
@@ -142,7 +109,7 @@ void cekSaldo() {
 
 }
 
-void simpanSaldo() { 
+void simpanSaldo(const struct Account *acc) { 
     FILE *file = fopen("saldo.txt", "w");
 
     if (file == NULL) {
@@ -159,11 +126,11 @@ void simpanSaldo() {
         "+===============================================+\n"
         "| Saldo Terakhir : Rp %-26.0f|\n"
         "+===============================================+\n",
-         saldo);
+         (double)acc->saldo);
     fclose(file);
 }
 
-void simpanRiwayat(char transaksi[], double jumlah, double saldoAkhir) {
+void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir) {
     FILE *file = fopen("riwayat.txt", "a");
 
     if (file == NULL) {
@@ -182,8 +149,8 @@ void simpanRiwayat(char transaksi[], double jumlah, double saldoAkhir) {
         "+==============================================+\n"
         "Tanggal : %02d-%02d-%04d\n"
         "Waktu   : %02d:%02d:%02d\n"
-        "[%s] Rp %.0f\n"
-        "Saldo Setelah Transaksi : Rp %.0f\n"
+        "[%s] Rp %ld\n"
+        "Saldo Setelah Transaksi : Rp %ld\n"
         "+==============================================+\n\n",
         t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
         t->tm_hour, t->tm_min, t->tm_sec,               
