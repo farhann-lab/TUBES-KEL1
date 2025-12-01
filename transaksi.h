@@ -10,5 +10,6 @@ void menuSetorUang(struct Account *acc);
 void cekSaldo(const struct Account *acc);
 void simpanSaldo(const struct Account *acc);
 void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir);
+void riwayatTransaksi(const struct Account *acc);
 
 #endif // TRANSAKSI_H

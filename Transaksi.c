@@ -85,7 +85,7 @@ void menuSetorUang(struct Account *acc) {
     printf("\n=== STRUK SETOR TUNAI ===\n");
     printf("Jumlah disetor: %ld\n", jumlah);
     printf("Saldo sekarang: %ld\n", acc->saldo);
-    printf("\n\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n");
+    printf("\n\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n\n");
 }
 
 void cekSaldo(const struct Account *acc) {
@@ -127,6 +127,22 @@ void simpanSaldo(const struct Account *acc) {
         "| Saldo Terakhir : Rp %-26.0f|\n"
         "+===============================================+\n",
          (double)acc->saldo);
+    fclose(file);
+}
+
+void riwayatTransaksi(const struct Account *acc) {
+    FILE *file = fopen("riwayat.txt", "r");
+    char ch;
+
+    if (file == NULL) {
+        printf("Tidak ada riwayat transaksi.\n");
+        return;
+    }
+
+    printf("\n=== RIWAYAT TRANSAKSI ===\n");
+    while ((ch = fgetc(file)) != EOF) {
+        putchar(ch);
+    }
     fclose(file);
 }
 

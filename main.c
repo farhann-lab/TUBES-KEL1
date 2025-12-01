@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "akun.h"
 #include "transaksi.h"
+#include "games.h"
 
 void headerMenu(struct Account *user){
     int pilihan, loop;
@@ -36,10 +37,10 @@ void headerMenu(struct Account *user){
         cekSaldo(user);
         break;
     case 5:
-        
+        riwayatTransaksi(user);
         break;
     case 6:
-        
+        games(user);
         break;
     case 7:
         ubahPin(user);
@@ -58,7 +59,7 @@ int main(){
     struct Account user;
 
     printf("+=================================+\n");
-    printf("|    SELAMAT DATANG DI ATM C11    |\n");
+    printf("|   SELAMAT DATANG DI ATM MINI    |\n");
     printf("+=================================+\n");
     if (!akunAda()) {
         buatAkun(&user);
