@@ -1,11 +1,10 @@
-// games.c — lucky draw game implementation
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "transaksi.h" // includes akun.h and transaction helpers
-
+#include "transaksi.h" 
+//test
 void games(struct Account *acc) {
-    long saldo = acc->saldo;
+    long saldo = acc -> saldo;
     int gamble, roll;
     int g1, g2, g3, r1, r2, r3;
     int cocok = 0;
@@ -51,7 +50,6 @@ void games(struct Account *acc) {
 
     acc->saldo += hadiah;
 
-    // persist changes to account and transaction history
     simpanAkun(acc);
     simpanSaldo(acc);
     simpanRiwayat("LUCKY", hadiah, acc->saldo);
