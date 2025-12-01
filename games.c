@@ -15,14 +15,14 @@ void games(struct Account *acc) {
         return;
     }
 
-    printf("Gamble 3 digits (000-999): ");
+    printf("      ———*ੈ✩‧₊˚༺☆༻*ੈ✩‧————\n    Gamble 3 digits (000-999)\n\n  \t    ⤷ ");
     if (scanf("%d", &gamble) != 1) {
-        printf("Input invalid.\n");
+        printf("( ꩜ ᯅ ꩜;)⁭ Ⳋ Input invalid. \n");
         return;
     }
 
     if (gamble < 0 || gamble > 999) {
-        printf("Nomor harus antara 000-999.\n");
+        printf("┆   Nomor harus antara 000-999.   ┆\n");
         return;
     }
 
@@ -57,9 +57,9 @@ void games(struct Account *acc) {
     time_t now = time(NULL);
     struct tm *w = localtime(&now);
 
-    printf("[%02d-%02d-%04d %02d:%02d] Roll: %03d\n | Gamble: %03d\n | Cocok: %d\n | Hadiah: %ld\n | Fee: -20000\n",
+    printf("┆ [%02d-%02d-%04d %02d:%02d] Roll: %03d ┆\n | Gamble: %03d\n | Cocok: %d\n | Hadiah: %ld\n | Fee: -20000\n",
            w->tm_mday, w->tm_mon + 1, w->tm_year + 1900,
            w->tm_hour, w->tm_min, roll, gamble, cocok, hadiah);
 
-    printf("Saldo sekarang: %ld\n", acc->saldo);
+    printf("❯❯❯❯ ❯❯❯❯ Saldo sekarang: %ld\n ❯❯❯❯ ❯❯❯❯", acc->saldo);
 }
