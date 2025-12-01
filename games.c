@@ -15,14 +15,14 @@ void games(struct Account *acc) {
         return;
     }
 
-    printf("      ————$$————\n    Gamble 3 digits (000-999)\n\n  \t    ⤷ ");
+    printf("      ----$----\n    Gamble 3 digits (000-999)\n\n  \t    -> ");
     if (scanf("%d", &gamble) != 1) {
-        printf("X X X Input invalid. X X X \n");
+        printf("\n\nX X X Input invalid. X X X \n");
         return;
     }
 
     if (gamble < 0 || gamble > 999) {
-        printf("┆   Nomor harus antara 000-999.   ┆\n");
+        printf("\n\n|   Nomor harus antara 000-999.   |\n");
         return;
     }
 
@@ -57,11 +57,12 @@ void games(struct Account *acc) {
     time_t now = time(NULL);
     struct tm *w = localtime(&now);
 
-    printf("┆ [%02d-%02d-%04d %02d:%02d] Roll: %03d ┆\n | Gamble: %03d\n | Cocok: %d\n | Hadiah: %ld\n | Fee: -20000\n",
-           w->tm_mday, w->tm_mon + 1, w->tm_year + 1900,
-           w->tm_hour, w->tm_min, roll, gamble, cocok, hadiah);
+    printf("\n\n | [%02d-%02d-%04d %02d:%02d] Roll: %03d         |", w->tm_mday, w->tm_mon + 1, w->tm_year + 1900,
+           w->tm_hour, w->tm_min);
+    getchar();
+    printf("\n\tJRENG JRENG JRENG\n");
+    getchar();
+    printf("\n | Gamble: %03d                          |\n | Cocok: %d                           |\n | Hadiah: %ld                            |\n | Fee: -20000\n", roll, gamble, cocok, hadiah);
 
-    printf("❯❯❯❯ ❯❯❯❯ Saldo sekarang: %ld\n ❯❯❯❯ ❯❯❯❯", acc->saldo);
-
-    printf("---=$ Saldo sekarang: %ld\n $=---", acc->saldo);
+    printf("\n\n---=$ Saldo sekarang: %ld $=---\n\n", acc->saldo);
 }
