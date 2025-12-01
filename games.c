@@ -61,8 +61,6 @@ void games(struct Account *acc) {
            w->tm_mday, w->tm_mon + 1, w->tm_year + 1900,
            w->tm_hour, w->tm_min, roll, gamble, cocok, hadiah);
 
-    printf("❯❯❯❯ ❯❯❯❯ Saldo sekarang: %ld\n ❯❯❯❯ ❯❯❯❯", acc->saldo);
-
     printf("---=$ Saldo sekarang: %ld\n $=---", acc->saldo);
 }
 
