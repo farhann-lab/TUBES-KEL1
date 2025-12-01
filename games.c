@@ -62,4 +62,6 @@ void games(struct Account *acc) {
            w->tm_hour, w->tm_min, roll, gamble, cocok, hadiah);
 
     printf("❯❯❯❯ ❯❯❯❯ Saldo sekarang: %ld\n ❯❯❯❯ ❯❯❯❯", acc->saldo);
+
 }
+
