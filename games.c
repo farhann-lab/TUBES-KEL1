@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "transaksi.h" 
-
-
+//test
 void games(struct Account *acc) {
     long saldo = acc -> saldo;
     int gamble, roll;
@@ -11,16 +10,10 @@ void games(struct Account *acc) {
     int cocok = 0;
     long hadiah = 0;
 
-
-
-
     if (saldo < 20000) {
         printf("You are too broke to gamble, minimal 20 ribu lah\n");
         return;
     }
-
-
-
 
     printf("Gamble 3 digits (000-999): ");
     if (scanf("%d", &gamble) != 1) {
@@ -33,17 +26,11 @@ void games(struct Account *acc) {
         return;
     }
 
-
-
-
     // fee
     acc->saldo -= 20000;
 
-
     srand((unsigned)time(NULL));
     roll = rand() % 1000;
-
-
 
     g1 = gamble / 100;
     g2 = (gamble / 10) % 10;
@@ -67,12 +54,8 @@ void games(struct Account *acc) {
     simpanSaldo(acc);
     simpanRiwayat("LUCKY", hadiah, acc->saldo);
 
-
-    
     time_t now = time(NULL);
     struct tm *w = localtime(&now);
-
-
 
     printf("[%02d-%02d-%04d %02d:%02d] Roll: %03d\n | Gamble: %03d\n | Cocok: %d\n | Hadiah: %ld\n | Fee: -20000\n",
            w->tm_mday, w->tm_mon + 1, w->tm_year + 1900,

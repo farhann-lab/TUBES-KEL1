@@ -1,4 +1,4 @@
-//games ref
+//games refer
 #ifndef GAMES_H
 #define GAMES_H
 
