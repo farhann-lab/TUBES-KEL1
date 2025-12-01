@@ -15,9 +15,9 @@ void games(struct Account *acc) {
         return;
     }
 
-    printf("      ———*ੈ✩‧₊˚༺☆༻*ੈ✩‧————\n    Gamble 3 digits (000-999)\n\n  \t    ⤷ ");
+    printf("      ————$$————\n    Gamble 3 digits (000-999)\n\n  \t    ⤷ ");
     if (scanf("%d", &gamble) != 1) {
-        printf("( ꩜ ᯅ ꩜;) Input invalid. \n");
+        printf("X X X Input invalid. X X X \n");
         return;
     }
 
