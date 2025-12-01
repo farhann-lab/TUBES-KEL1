@@ -1,5 +1,5 @@
-#ifndef AKUN_H
-#define AKUN_H
+#ifndef FITUR_H
+#define FITUR_H
 
 #include <stdio.h>
 
@@ -30,4 +30,16 @@ void ubahPin(struct Account *acc);
 // main menu for ATM operations (receives pointer so changes persist)
 void menuATM(struct Account *acc);
 
-#endif // AKUN_H
+void games(struct Account *acc);
+
+// menu transaksi
+void menuTarikUang(struct Account *acc);
+void menuSetorUang(struct Account *acc);
+void cekSaldo(const struct Account *acc);
+void simpanSaldo(const struct Account *acc);
+void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir);
+void riwayatTransaksi(const struct Account *acc);
+
+void keluar();
+
+#endif // FITUR_H

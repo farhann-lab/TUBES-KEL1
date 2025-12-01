@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "transaksi.h" 
+#include "fitur.h" 
 //test
 void games(struct Account *acc) {
     long saldo = acc -> saldo;
@@ -61,5 +61,8 @@ void games(struct Account *acc) {
            w->tm_mday, w->tm_mon + 1, w->tm_year + 1900,
            w->tm_hour, w->tm_min, roll, gamble, cocok, hadiah);
 
+    printf("❯❯❯❯ ❯❯❯❯ Saldo sekarang: %ld\n ❯❯❯❯ ❯❯❯❯", acc->saldo);
+
     printf("---=$ Saldo sekarang: %ld\n $=---", acc->saldo);
 }
+
