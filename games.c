@@ -66,4 +66,3 @@ void games(struct Account *acc) {
 
     printf("\n\n---=$ Saldo sekarang: %ld $=---\n\n", acc->saldo);
 }
-
