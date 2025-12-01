@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include "akun.h"
-#include "transaksi.h"
-#include "games.h"
+#include "fitur.h"
 
 void headerMenu(struct Account *user){
     int pilihan, loop;
@@ -10,14 +8,14 @@ void headerMenu(struct Account *user){
     printf("+=======================================+\n");
     printf("|              ATM MACHINE              |\n");
     printf("+=======================================+\n");
-    printf("|1. Tarik Uang\t\t\t\t|\n");
-    printf("|2. Setor Uang\t\t\t\t|\n");
-    printf("|3. Transfer Uang\t\t\t|\n");
-    printf("|4. Lihat Saldo\t\t\t\t|\n");
-    printf("|5. Riwayat Transaksi\t\t\t|\n");
-    printf("|6. Lucky Draw\t\t\t\t|\n");
-    printf("|7. Ganti Pin\t\t\t\t|\n");
-    printf("|8. Keluar\t\t\t\t|\n");
+    printf("|   1. Tarik Uang\t\t\t|\n");
+    printf("|   2. Setor Uang\t\t\t|\n");
+    printf("|   3. Transfer Uang\t\t\t|\n");
+    printf("|   4. Lihat Saldo\t\t\t|\n");
+    printf("|   5. Riwayat Transaksi\t\t|\n");
+    printf("|   6. Lucky Draw\t\t\t|\n");
+    printf("|   7. Ganti Pin\t\t\t|\n");
+    printf("|   8. Keluar\t\t\t\t|\n");
     printf("+=======================================+\n");
     printf("Pilih menu: ");
     scanf("%d", &pilihan);
@@ -46,7 +44,7 @@ void headerMenu(struct Account *user){
         ubahPin(user);
         break;
     case 8:
-        printf("Keluar dari menu.\n");
+        keluar();
         return;
         break;
     default:

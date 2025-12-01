@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "transaksi.h"
+#include "fitur.h"
 
 // Transaksi functions now operate on struct Account passed from main
 
@@ -160,7 +160,7 @@ void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir) {
 
     fprintf(file,
         "+==============================================+\n"
-        "|                Riwayat Transaksi             |\n"
+        "|               Riwayat Transaksi              |\n"
         "|                    ATM MINI                  |\n"
         "+==============================================+\n"
         "Tanggal : %02d-%02d-%04d\n"
@@ -176,4 +176,10 @@ void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir) {
 }
 
 
-
+void keluar() {
+    printf("\n+==================================+\n");
+    printf("|  Terima kasih telah menggunakan  |\n");
+    printf("|       ATM MINI KELOMPOK 1        |\n");
+    printf("+==================================+\n");
+    exit(0);
+}
