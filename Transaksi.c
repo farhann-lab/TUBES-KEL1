@@ -51,7 +51,10 @@ void menuTarikUang(struct Account *acc) {
     printf("\n=== STRUK TARIK TUNAI ===\n");
     printf("Jumlah ditarik: %ld\n", jumlah);
     printf("Sisa saldo: %ld\n", acc->saldo);
-    printf("\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n");
+     printf("\n\nKETIK APA SAJA UNTUK KEMBALI KE MENU\n\n");
+    getchar();
+    getchar();
+    system("cls");
 }
 
 void menuSetorUang(struct Account *acc) {
@@ -79,9 +82,10 @@ void menuSetorUang(struct Account *acc) {
     printf("\n=== STRUK SETOR TUNAI ===\n");
     printf("Jumlah disetor: %ld\n", jumlah);
     printf("Saldo sekarang: %ld\n", acc->saldo);
-    printf("\n\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n\n");
+    printf("\n\nKETIK APA SAJA UNTUK KEMBALI KE MENU\n\n");
     getchar();
     getchar();
+    system("cls");
 }
 
 void cekSaldo(const struct Account *acc) {
@@ -102,6 +106,10 @@ void cekSaldo(const struct Account *acc) {
     printf("|   TERIMA KASIH SUDAH MENGGUNAKAN ATM MINI     |\n");
     printf("|                  KELOMPOK 1                   |\n");
     printf("+===============================================+\n");
+     printf("\n\nKETIK APA SAJA UNTUK KEMBALI KE MENU\n\n");
+    getchar();
+    getchar();
+    system("cls");
 
 }
 

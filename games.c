@@ -61,7 +61,10 @@ void games(struct Account *acc) {
     getchar();
     printf("\n\tJRENG JRENG JRENG\n");
     getchar();
-    printf("\n | Gamble: %03d                          |\n | Cocok: %d                           |\n | Hadiah: %ld                            |\n | Fee: -20000\n", roll, gamble, cocok, hadiah);
+    printf("\n | Gamble: %03d                          |\n | Cocok: %d                           |\n | Hadiah: %ld                            |\n | Fee: -20000\n", roll, gamble, hadiah);
 
     printf("\n\n---=$ Saldo sekarang: %ld $=---\n\n", acc->saldo);
+     printf("\n\nKETIK APA SAJA UNTUK KEMBALI KE MENU\n\n");
+    getchar();
+    system("cls");
 }
