@@ -1,97 +1,119 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
-int cekSaldo() {
-    int saldo = 1500000;
-    return saldo;
+int cekSaldo(){
+    return 1500000;
 }
 
-void simpanHistory(char penerima[], int jumlah) {
-    FILE *f;
-    f = fopen("history.txt", "a");
-    if (f == NULL) {
-        printf("Gagal membuka file history...\n");
-        return;
+void simpanRiwayat(char tipe[], char tujuan[], int jml){
+    FILE *fp;
+    fp = fopen("riwayat.txt","a");
+    if(fp != NULL){
+        fprintf(fp,"%s | TUJUAN: %s | NOMINAL: %d\n", tipe, tujuan, jml);
+        fclose(fp);
     }
-    fprintf(f, "TRANSFER KE %s : %d\n", penerima, jumlah);
-    fclose(f);
 }
 
-void transfer() {
-    char namaUser[20] = "Tiara";
-    char namaTujuan[100];
-    char line[200];
-    int nominal;
+int main(){
+
+    char namaRek[50][100];
+    char noRek[50][30];
+    int jmlRek = 0;
+
+    int menu;
     int saldo = cekSaldo();
 
-    printf("=== MENU TRANSFER UANG ===\n\n");
+    do{
+        printf("\n===== MENU BANK =====\n");
+        printf("1. Tambah Rekening\n");
+        printf("2. Lihat Rekening\n");
+        printf("3. Transfer\n");
+        printf("4. Keluar\n");
+        printf("Pilih : ");
+        scanf("%d", &menu);
+        getchar();
 
-    // baca nama penerima (boleh ada spasi)
-    printf("Masukkan nama penerima : ");
-    if (fgets(namaTujuan, sizeof(namaTujuan), stdin) == NULL) {
-        printf("Input gagal.\n");
-        return;
-    }
-    // hapus newline jika ada
-    size_t L = strlen(namaTujuan);
-    if (L > 0 && (namaTujuan[L-1] == '\n' || namaTujuan[L-1] == '\r')) {
-        namaTujuan[L-1] = '\0';
-        L--;
-        // handle CRLF (Windows)
-        if (L > 0 && namaTujuan[L-1] == '\r') namaTujuan[L-1] = '\0';
-    }
+        if(menu == 1){
+            if(jmlRek < 50){
 
-    // baca nominal dengan validasi
-    while (1) {
-        printf("Masukkan nominal transfer : ");
-        if (fgets(line, sizeof(line), stdin) == NULL) {
-            printf("Input gagal.\n");
-            return;
+                printf("Masukkan nama pemilik : ");
+                fgets(namaRek[jmlRek], sizeof(namaRek[jmlRek]), stdin);
+                int p = strlen(namaRek[jmlRek]);
+                if(namaRek[jmlRek][p-1] == '\n') namaRek[jmlRek][p-1] = '\0';
+
+                printf("Masukkan nomor rekening : ");
+                fgets(noRek[jmlRek], sizeof(noRek[jmlRek]), stdin);
+                int q = strlen(noRek[jmlRek]);
+                if(noRek[jmlRek][q-1] == '\n') noRek[jmlRek][q-1] = '\0';
+
+                printf("Rekening berhasil ditambah!\n");
+                jmlRek++;
+            }
+            else{
+                printf("Kapasitas penuh!\n");
+            }
         }
-        // hapus newline
-        size_t ln = strlen(line);
-        if (ln > 0 && (line[ln-1] == '\n' || line[ln-1] == '\r')) {
-            line[ln-1] = '\0';
-            ln--;
-            if (ln > 0 && line[ln-1] == '\r') line[ln-1] = '\0';
+
+        else if(menu == 2){
+            if(jmlRek == 0){
+                printf("Belum ada rekening.\n");
+            } else {
+                printf("\n--- DAFTAR REKENING ---\n");
+                for(int i=0; i<jmlRek; i++){
+                    printf("%d. %s | %s\n", i+1, namaRek[i], noRek[i]);
+                }
+            }
         }
 
-        // konversi dan cek
-        char *endptr;
-        long val = strtol(line, &endptr, 10);
-        if (endptr == line || *endptr != '\0') {
-            printf("Input nominal tidak valid. Masukkan angka saja.\n");
-            continue;
+        else if(menu == 5){
+            if(jmlRek == 0){
+                printf("Tidak ada rekening tujuan.\n");
+            }else{
+                int pilih, nominal;
+
+                printf("\n--- PILIH REKENING TUJUAN ---\n");
+                for(int i=0; i<jmlRek; i++){
+                    printf("%d. %s (%s)\n", i+1, namaRek[i], noRek[i]);
+                }
+
+                printf("Pilih nomor : ");
+                scanf("%d", &pilih);
+                getchar();
+
+                if(pilih < 1 || pilih > jmlRek){
+                    printf("Pilihan tidak ada!\n");
+                } else {
+                    printf("Masukkan nominal : ");
+                    scanf("%d", &nominal);
+                    getchar();
+
+                    if(nominal <= 0){
+                        printf("Nominal tidak valid!\n");
+                    } else if(nominal > saldo){
+                        printf("Saldo tidak cukup!\n");
+                    } else {
+                        saldo -= nominal;
+
+                        printf("\n=== TRANSFER BERHASIL ===\n");
+                        printf("Dari     : Tiara\n");
+                        printf("Ke       : %s (%s)\n", namaRek[pilih-1], noRek[pilih-1]);
+                        printf("Nominal  : %d\n", nominal);
+                        printf("Sisa     : %d\n", saldo);
+
+                        char tujuanFull[200];
+                        sprintf(tujuanFull, "%s (%s)", namaRek[pilih-1], noRek[pilih-1]);
+
+                        simpanRiwayat("TRANSFER", tujuanFull, nominal);
+
+                        printf("(Tersimpan di riwayat.txt)\n");
+                    }
+                }
+            }
         }
-        if (val <= 0) {
-            printf("Nominal harus lebih besar dari 0.\n");
-            continue;
-        }
-        nominal = (int) val;
-        break;
-    }
 
-    if (nominal > saldo) {
-        printf("\nMaaf saldo Anda tidak cukup!\n");
-        return;
-    }
+    }while(menu != 4);
 
-    saldo = saldo - nominal;
+    printf("Keluar dari program...\n");
 
-    printf("\nTransfer berhasil!\n");
-    printf("Pengirim    : %s\n", namaUser);
-    printf("Penerima    : %s\n", namaTujuan);
-    printf("Jumlah      : %d\n", nominal);
-    printf("Sisa Saldo  : %d\n", saldo);
-
-    simpanHistory(namaTujuan, nominal);
-    printf("\n(Riwayat tersimpan di history.txt)\n");
-}
-
-int main() {
-    // PENTING: kalau program lain sebelumnya pakai scanf(), kadang ada newline tersisa.
-    // Karena kita cuma pakai fgets() di sini, main langsung panggil fungsi transfer.
-    transfer();
     return 0;
 }
