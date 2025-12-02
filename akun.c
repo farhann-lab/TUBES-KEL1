@@ -3,6 +3,15 @@
 #include <string.h>
 #include "fitur.h"
 
+// === FUNGSI CEK HANYA ANGKA ===
+int hanyaAngka(const char *s) {
+    for (int i = 0; s[i] != '\0'; i++) {
+        if (s[i] < '0' || s[i] > '9') {
+            return 0;
+        }
+    }
+    return 1;
+}
 // cek apakah file akun ada
 int akunAda(void) {
     FILE *file = fopen("akun.txt", "r");
@@ -13,6 +22,8 @@ int akunAda(void) {
     fclose(file);
     return 1;
 }
+
+
 
 // simpan data ke file
 void simpanAkun(const struct Account *acc) {
@@ -32,8 +43,17 @@ void buatAkun(struct Account *acc) {
     printf("Masukkan Nama (1 kata): ");
     scanf("%s", acc->nama);
 
+    // validasi PIN hanya angka
+    while (1) {
     printf("Buat PIN: ");
     scanf("%s", acc->pin);
+
+        if (!hanyaAngka(acc->pin)) {
+            printf("PIN hanya boleh angka!! Coba lagi.\n");
+            continue;
+        }
+        break;
+    }
 
     printf("Masukkan Saldo Awal: ");
     scanf("%ld", &acc->saldo);
@@ -63,6 +83,12 @@ void login(const struct Account *acc) {
         printf("Silahkan Masukkan PIN: ");
         scanf("%s", pinInput);
 
+         // cek kalau input bukan angka
+         if (!hanyaAngka(pinInput)) {
+            printf("PIN hanya boleh angka!! Coba lagi.\n");
+            continue;
+         }
+
         if (strcmp(pinInput, acc->pin) == 0) {
             system("cls");
             printf("Login berhasil!\n");
@@ -89,14 +115,29 @@ void ubahPin(struct Account *acc) {
     printf("Masukkan PIN lama: ");
     scanf("%s", pinLama);
 
+     // PIN lama harus angka
+    if (!hanyaAngka(pinLama)) {
+        printf("PIN hanya boleh angka!! Coba lagi.\n");
+        continue;
+    }
+
     if (strcmp(pinLama, acc->pin) != 0) {
         printf("PIN lama salah.\n");
         
     } else {break;}
     }
 
+     // PIN baru juga harus angka
+    while (1) { 
     printf("Masukkan PIN baru: ");
     scanf("%s", pinBaru);
+
+        if (!hanyaAngka(pinBaru)) {
+            printf("PIN hanya boleh angka!! Coba lagi.\n");
+            continue;
+        }
+        break;
+    }    
 
     strncpy(acc->pin, pinBaru, sizeof(acc->pin)-1);
     acc->pin[sizeof(acc->pin)-1] = '\0';
