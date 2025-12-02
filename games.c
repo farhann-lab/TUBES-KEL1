@@ -51,7 +51,6 @@ void games(struct Account *acc) {
     acc->saldo += hadiah;
 
     simpanAkun(acc);
-    simpanSaldo(acc);
     simpanRiwayat("LUCKY", hadiah, acc->saldo);
 
     time_t now = time(NULL);

@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// struct Account is declared in akun.h so include that instead
 #include "fitur.h"
 
-// Cek apakah file akun ada
+// cek apakah file akun ada
 int akunAda(void) {
     FILE *file = fopen("akun.txt", "r");
     if (file == NULL) {
@@ -16,7 +14,7 @@ int akunAda(void) {
     return 1;
 }
 
-// Simpan data ke file
+// simpan data ke file
 void simpanAkun(const struct Account *acc) {
     FILE *file = fopen("akun.txt", "w");
     if (file == NULL) {
@@ -27,7 +25,7 @@ void simpanAkun(const struct Account *acc) {
     fclose(file);
 }
 
-// Buat akun baru
+// buat akun baru
 void buatAkun(struct Account *acc) {
     printf("== BUAT AKUN BARU ==\n");
 
@@ -45,7 +43,7 @@ void buatAkun(struct Account *acc) {
     printf("Akun berhasil dibuat!\n");
 }
 
-// Ambil data dari file
+// ambil data dari file
 void ambilAkun(struct Account *acc) {
     FILE *fp = fopen("akun.txt", "r");
     if (fp == NULL) {
@@ -56,7 +54,7 @@ void ambilAkun(struct Account *acc) {
     fclose(fp);
 }
 
-// Login
+// login
 void login(const struct Account *acc) {
     char pinInput[10];
     int percobaan = 0;
@@ -83,7 +81,7 @@ void login(const struct Account *acc) {
     }
 }
 
-// Ubah PIN
+// ubah PIN
 void ubahPin(struct Account *acc) {
     char pinLama[10], pinBaru[10];
 
@@ -107,32 +105,3 @@ void ubahPin(struct Account *acc) {
     printf("PIN berhasil diubah!\n");
 }
 
-// Menu utama
-void menuATM(struct Account *acc) {
-    int pilihan;
-
-    while (1) {
-        printf("\n=== SELAMAT DATANG %s ===\n", acc->nama);
-        printf("1. Lihat Saldo\n");
-        printf("2. Ubah PIN\n");
-        printf("3. Keluar\n");
-        printf("Pilih: ");
-        scanf("%d", &pilihan);
-
-        if (pilihan == 1) {
-            printf("Saldo Anda: %ld\n", acc->saldo);
-        } 
-        else if (pilihan == 2) {
-            ubahPin(acc);
-        }
-        else if (pilihan == 3) {
-            printf("Terima kasih.\n");
-            return;
-        }
-        else {
-            printf("Pilihan tidak valid.\n");
-        }
-    }
-}
-
-// Note: main is in main.c — this file provides account implementations only.
