@@ -80,6 +80,8 @@ void menuSetorUang(struct Account *acc) {
     printf("Jumlah disetor: %ld\n", jumlah);
     printf("Saldo sekarang: %ld\n", acc->saldo);
     printf("\n\nTERIMA KASIH SUDAH MENGGUNAKAN ATM MINI KEL 1.\n\n");
+    getchar();
+    getchar();
 }
 
 void cekSaldo(const struct Account *acc) {
