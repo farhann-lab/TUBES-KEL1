@@ -4,10 +4,6 @@
 #include <time.h>
 #include "fitur.h"
 
-// Transaksi functions now operate on struct Account passed from main
-
-// Transaksi.c provides transaction functions; main() lives in main.c
-
 void menuTarikUang(struct Account *acc) {
     int pilihan;
     long jumlah = 0;
@@ -49,8 +45,7 @@ void menuTarikUang(struct Account *acc) {
 
     acc->saldo -= jumlah;
 
-    simpanAkun(acc); // persist to akun.txt
-    simpanSaldo(acc);
+    simpanAkun(acc); 
     simpanRiwayat("TARIK", jumlah, acc->saldo);
 
     printf("\n=== STRUK TARIK TUNAI ===\n");
@@ -78,8 +73,7 @@ void menuSetorUang(struct Account *acc) {
 
     acc->saldo += jumlah;
 
-    simpanAkun(acc); // persist new balance
-    simpanSaldo(acc);
+    simpanAkun(acc); 
     simpanRiwayat("SETOR", jumlah, acc->saldo);
 
     printf("\n=== STRUK SETOR TUNAI ===\n");
@@ -109,27 +103,7 @@ void cekSaldo(const struct Account *acc) {
 
 }
 
-void simpanSaldo(const struct Account *acc) { 
-    FILE *file = fopen("saldo.txt", "w");
-
-    if (file == NULL) {
-        printf("Gagal menyimpan saldo!\n");
-        return;
-    }
-
-    time_t now = time(NULL);
-    struct tm *t = localtime(&now);
-
-    fprintf(file,
-        "+===============================================+\n"
-        "|                   SALDO ATM                   |\n"
-        "+===============================================+\n"
-        "| Saldo Terakhir : Rp %-26.0f|\n"
-        "+===============================================+\n",
-         (double)acc->saldo);
-    fclose(file);
-}
-
+// Tampilkan riwayat transaksi dari file riwayat.txt
 void riwayatTransaksi(const struct Account *acc) {
     FILE *file = fopen("riwayat.txt", "r");
     char ch;
@@ -175,11 +149,17 @@ void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir) {
 
 }
 
+void menuRiwayat() {
+    printf("\n+======================================+\n");
+    printf("|    RIWAYAT TRANSAKSI TELAH DICETAK   |\n");
+    printf("|     Silahkan cek file riwayat.txt    |\n");
+    printf("+======================================+\n");
+}
 
 void keluar() {
-    printf("\n+==================================+\n");
-    printf("|  Terima kasih telah menggunakan  |\n");
-    printf("|       ATM MINI KELOMPOK 1        |\n");
-    printf("+==================================+\n");
+    printf("\n+===================================+\n");
+    printf("|  Terima kasih telah menggunakan   |\n");
+    printf("|       ATM MINI KELOMPOK 1         |\n");
+    printf("+===================================+\n\n");
     exit(0);
 }
