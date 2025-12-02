@@ -29,7 +29,7 @@ void headerMenu(struct Account *user){
         menuSetorUang(user);
         break;
     case 3:
-
+        menuTransfer(user);
         break;
     case 4:
         cekSaldo(user);

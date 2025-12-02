@@ -28,6 +28,9 @@ void simpanRiwayat(const char transaksi[], long jumlah, long saldoAkhir);
 void riwayatTransaksi(const struct Account *acc);
 void menuRiwayat();
 
+// menu transfer
+void menuTransfer(struct Account *acc);
+
 void keluar();
 
 #endif // FITUR_H

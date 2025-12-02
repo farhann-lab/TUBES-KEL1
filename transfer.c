@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "fitur.h"
 
@@ -23,7 +24,6 @@ void menuTransfer(struct Account *acc){
         printf("4. Kembali\n");
         printf("Pilih : ");
         if (scanf("%d", &menu) != 1) {
-            // clear input and continue
             int c; while ((c = getchar()) != '\n' && c != EOF) {}
             menu = 0;
         }
@@ -41,16 +41,8 @@ void menuTransfer(struct Account *acc){
 
     } while(menu != 4);
 
+    system("cls");
     printf("Kembali ke menu utama...\n");
-}
-
-void simpanRiwayat(char tipe[], char tujuan[], int jml){
-    FILE *fp;
-    fp = fopen("riwayat.txt","a");
-    if(fp != NULL){
-        fprintf(fp, "%s | TUJUAN: %s | NOMINAL: %d\n", tipe, tujuan, jml);
-        fclose(fp);
-    }
 }
 
 void tambahRekening(char namaRek[][100], char noRek[][30], int *jmlRek){
@@ -132,7 +124,7 @@ void performTransfer(char namaRek[][100], char noRek[][30], int jmlRek, struct A
                 char tujuanFull[200];
                 sprintf(tujuanFull, "%s (%s)", namaRek[pilih-1], noRek[pilih-1]);
 
-                simpanRiwayat("TRANSFER", tujuanFull, nominal);
+                simpanRiwayat("TRANSFER", nominal, acc->saldo);
 
                 printf("(Tersimpan di riwayat.txt)\n");
             }

@@ -38,7 +38,7 @@ void menuTarikUang(struct Account *acc) {
     if (jumlah > acc->saldo) {
         printf("\n=== TRANSAKSI GAGAL ===\n");
         printf("Transaksi tidak dapat diproses.\n");
-        printf("Saldo Anda tidak mencukupi untuk melakukan penarikan sebesar %.0f\n", jumlah);
+        printf("Saldo Anda tidak mencukupi untuk melakukan penarikan sebesar %ld\n", jumlah);
         printf("Silakan periksa saldo Anda kembali.\n");
         return;
     }
@@ -106,7 +106,7 @@ void cekSaldo(const struct Account *acc) {
 // Tampilkan riwayat transaksi dari file riwayat.txt
 void riwayatTransaksi(const struct Account *acc) {
     FILE *file = fopen("riwayat.txt", "r");
-    char ch;
+    int ch;
 
     if (file == NULL) {
         printf("Tidak ada riwayat transaksi.\n");
@@ -115,7 +115,7 @@ void riwayatTransaksi(const struct Account *acc) {
 
     printf("\n=== RIWAYAT TRANSAKSI ===\n");
     while ((ch = fgetc(file)) != EOF) {
-        putchar(ch);
+        putchar((char)ch);
     }
     fclose(file);
 }
