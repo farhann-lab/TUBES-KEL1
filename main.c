@@ -35,7 +35,7 @@ void headerMenu(struct Account *user){
         cekSaldo(user);
         break;
     case 5:
-        riwayatTransaksi(user);
+        menuRiwayat();
         break;
     case 6:
         games(user);
